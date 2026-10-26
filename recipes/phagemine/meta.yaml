@@ -4,10 +4,9 @@ package:
   name: phagemine
   version: {{ version }}
 
-# Immutable v1.3.3 release commit (includes annotation reliability checks).
 source:
-  url: https://github.com/emmannaemeka/PhageMine/archive/07a67b4c12c2c1b55e32a0517f5882531d5c4fdd.tar.gz
-  sha256: dff7197cdc52441ced344e78223710bedd30260eaae9e562b5eec4b50b0e2b7b
+  url: https://pypi.org/packages/source/p/phagemine/phagemine-{{ version }}.tar.gz
+  sha256: 52e3c35ba4cc8d53021add3cd181becc3913274f56381fabfdffc49e358d79e6
 
 build:
   number: 0
