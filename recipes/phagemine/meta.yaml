@@ -1,13 +1,13 @@
-{% set name = "phagemine" %}
-{% set version = "1.3.2" %}
+{% set version = "1.3.3" %}
 
 package:
-  name: {{ name|lower }}
+  name: phagemine
   version: {{ version }}
 
+# Immutable v1.3.3 release commit (includes annotation reliability checks).
 source:
-  url: https://github.com/emmannaemeka/PhageMine/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 5cd62e56515ef351b06db76bc323e1d5f3581543f36ce5128272fdc801f4b736
+  url: https://github.com/emmannaemeka/PhageMine/archive/07a67b4c12c2c1b55e32a0517f5882531d5c4fdd.tar.gz
+  sha256: dff7197cdc52441ced344e78223710bedd30260eaae9e562b5eec4b50b0e2b7b
 
 build:
   number: 0
@@ -16,34 +16,56 @@ build:
     - {{ pin_subpackage('phagemine', max_pin="x") }}
   entry_points:
     - phagemine = phagemine.cli:main
+    - phagemine-gui = phagemine.gui.launcher:main
 
 requirements:
   host:
     - python >=3.10
     - pip
-    - setuptools >=68
+    - setuptools >=68,<81
+    - wheel
   run:
     - python >=3.10
-    - phanotate
-    - hmmer
+    - setuptools <81
+    - biopython >=1.85,<2
+    - psutil >=5,<8
+    - streamlit >=1.49,<2
+    - matplotlib-base >=3.7,<4
+    - pyhmmer >=0.10,<0.13
+    - pyrodigal =3.7.1
+    - pyrodigal-gv =0.3.2
+    - pyrodigal-rv =0.1.0
+    - phanotate =1.6.7
+    - prodigal =2.6.3
+    - hmmer =3.4
     - mmseqs2
     - diamond
+    - mash =2.3
+    - blast
+    - trnascan-se =2.0.12
 
 test:
+  imports:
+    - phagemine
+    - phagemine.rna_features
+    - phagemine.curation
+    - phagemine.annotation_reliability
+    - pyrodigal_gv
+    - pyrodigal_rv
   commands:
+    - phagemine-gui --help
     - phagemine --version
-    - phagemine --help
-    - phagemine batch --help
-    - phagemine extract --help
-    - python -c "import phagemine"
+    - phagemine run --help
+    - phagemine rna --help
+    - phagemine curate --help
 
 about:
   home: https://github.com/emmannaemeka/PhageMine
-  dev_url: https://github.com/emmannaemeka/PhageMine
-  summary: Evidence-based bacteriophage genome annotation and discovery mining
   license: MIT
   license_file: LICENSE
+  summary: Evidence-first phage annotation with RNA coverage and audited curation
 
 extra:
-  maintainers:
+  recipe-maintainers:
     - emmannaemeka
+
